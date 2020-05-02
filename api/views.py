@@ -32,12 +32,21 @@ class TopView(APIView):
         try:
             funcoes = Funcoes()
             top = json.loads(request.body)['top']
+
             saida = funcoes.get_playlist_audio_features('renan_bispo',top)
-            request.session['top'] = saida
+
+            
+            top_null = []
+
+            for i in saida:
+                if not i is None:
+                    top_null.append(i)
+
+            request.session['top'] = top_null
         except:
             saida = "error"    
 
-        return Response(saida)
+        return Response(top_null)
 
 class CompView(APIView):
     def get(self,request):

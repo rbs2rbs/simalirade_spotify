@@ -65,6 +65,7 @@ class Funcoes:
 
 class Comp:
     def __init__(self,top,musica):
+       
         self.top = top
         self.musica = musica
 
@@ -79,10 +80,8 @@ class Comp:
         ################################
 
         top = pd.DataFrame(self.top)
-
-        links_top = top['uri']
-
         
+        print(self.top)
 
         top = top.drop(['instrumentalness','time_signature','key','mode','type','uri','id','track_href','analysis_url'],axis=1)
 
