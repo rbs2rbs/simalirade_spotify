@@ -61,6 +61,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'spot.urls'
 
+SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
