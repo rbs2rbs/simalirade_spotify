@@ -81,8 +81,6 @@ class Comp:
 
         top = pd.DataFrame(self.top)
         
-        print(self.top)
-
         top = top.drop(['instrumentalness','time_signature','key','mode','type','uri','id','track_href','analysis_url'],axis=1)
 
         nomes = top.columns

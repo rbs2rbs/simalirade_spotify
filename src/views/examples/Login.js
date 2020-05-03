@@ -33,7 +33,8 @@ import {
   InputGroup,
   Container,
   Row,
-  Col
+  Col,
+  Progress
 } from "reactstrap";
 
 
@@ -49,7 +50,8 @@ class Login extends React.Component {
       show: true,
       musica:[],
       prop:[],
-      urlRequest:[]
+      urlRequest:[],
+      imagem:[]
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -86,25 +88,38 @@ class Login extends React.Component {
         <main ref="main">
           <section className="section section-shaped section-lg">
             <div className="shape shape-style-1 bg-gradient-default">
-              {/* <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span /> */}
             </div>
-            {this.state.musica.map(s => {
-                return(
-                  <li>{s.acousticness}</li>
-                )
-              })}
-              {this.state.prop.map(s => {
+              {this.state.prop.map((s, index) => {
+                console.log({s})
                 return(
                   <>
-                    <li>{s.prop}</li>
-                    <a href={s.musica.track.external_urls.spotify}>Veja musica Mais Parecida</a>
+                  <Container className="pt-lg-7">
+                    <Row className="justify-content-center">
+                      <Col lg="5">
+                        <Card className="bg-secondary shadow border-0">
+                          <div className="btn-wrapper text-center">
+                            <div className="text-center">
+                              <h1>{Number(s.prop*100).toFixed(2)}%</h1>
+                            </div>
+                            <Progress max="100" value={Number(s.prop*100).toFixed(2)} color="green" />
+                            <h2>{s.musica.track.name} - </h2>
+                            <h1>{s.musica.track.artists[0].name}</h1>
+                            <Button
+                              className="btn-neutral btn-icon"
+                              color="default"
+                              href={s.musica.track.external_urls.spotify}
+                            >
+                              <img
+                                className="maximo rounded-circle" 
+                                alt="..."
+                                src={s.musica.track.album.images[1].url}
+                              />
+                            </Button>
+                          </div>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </Container>
                   </>
                 )
               })}

@@ -19,7 +19,7 @@ class MusicaView(APIView):
             musica = json.loads(request.body)['musica']
             musica = musica.split('/')
 
-            saida = funcoes.get_musica(music_id = musica[-1])
+            saida = funcoes.get_musica(music_id = musica[-1][0:22])
             request.session['musica'] = saida
         except:
             saida = "error"  
