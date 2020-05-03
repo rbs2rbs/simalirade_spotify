@@ -85,8 +85,8 @@ class Login extends React.Component {
     return (
       <>
         {/* <DemoNavbar /> */}
-        <main ref="main">
-          <section className="section section-shaped section-lg">
+        <main ref="main" class="bg-gradient-default">
+          {/* <section className="section section-shaped section-lg"> */}
             <div className="shape shape-style-1 bg-gradient-default">
             </div>
               {this.state.prop.map((s, index) => {
@@ -102,8 +102,8 @@ class Login extends React.Component {
                               <h1>{Number(s.prop*100).toFixed(2)}%</h1>
                             </div>
                             <Progress max="100" value={Number(s.prop*100).toFixed(2)} color="green" />
-                            <h2>{s.musica.track.name} - </h2>
-                            <h1>{s.musica.track.artists[0].name}</h1>
+                            <h3>{s.musica.track.name}  </h3>
+                            <h3>{s.musica.track.artists[0].name}</h3>
                             <Button
                               className="btn-neutral btn-icon"
                               color="default"
@@ -130,22 +130,7 @@ class Login extends React.Component {
                     <Card className="bg-secondary shadow border-0">
                       <CardHeader className="bg-white pb-5">
                         <div className="text-muted text-center mb-3">
-                          <small>Adicione o link da sua Música</small>
-                        </div>
-                        <div className="btn-wrapper text-center">
-                          <Button
-                            className="btn-neutral btn-icon"
-                            color="default"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <span>
-                              <img className="maximo" 
-                                alt="..."
-                                src={require("assets/img/icons/common/spot.svg")}
-                              />
-                            </span>
-                          </Button>
+                          <h2>Adicione o link de compartilhamento Spotify da sua Música</h2>
                         </div>
                       </CardHeader>
                       <CardBody className="px-lg-5 py-lg-5">
@@ -172,13 +157,29 @@ class Login extends React.Component {
                             </Button>
                           </div>
                         </Form>
+                        <div className="btn-wrapper text-center">
+                          <Button
+                            className="btn-neutral btn-icon"
+                            color="default"
+                            href="#pablo"
+                            onClick={e => e.preventDefault()}
+                          >
+                            <span>
+                              <img className="maximo" 
+                                alt="..."
+                                src={require("assets/img/icons/common/spot.svg")}
+                              />
+                            </span>
+                          </Button>
+                        </div>
+                      
                       </CardBody>
                     </Card>
                   </Col>
                 </Row>
               </Container>
             </Flip>
-          </section>
+          {/* </section> */}
         </main>
       </>
     );
