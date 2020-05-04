@@ -81,6 +81,9 @@ class Login extends React.Component {
         .get("/api/comp/")
         .then(res=>{
           console.log(res)
+          document.documentElement.scrollTop = 0;
+          document.scrollingElement.scrollTop = 0;
+          this.refs.main.scrollTop = 0;
           const prop = [res.data];
           this.setState({ prop });
           this.setState({ done: true });
