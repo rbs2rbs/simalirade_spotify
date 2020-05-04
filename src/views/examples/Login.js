@@ -64,15 +64,17 @@ class Login extends React.Component {
   }
 
   handleClick() {
+    this.setState({ show: !this.state.show });
+    this.setState({ done: false }); 
     axios.post('/api/top/', {
       top: "37i9dQZEVXbMDoHDwVN2tF" 
-    }).then((r) =>{   
+    }).then((r) =>{  
       axios.post('/api/musica/', {
         musica: this.state.urlRequest 
       })
       .then((response) => {
         const musica = [response.data.features[0]]
-        this.setState({ musica:musica , show: !this.state.show });
+        this.setState({ musica:musica });
         axios
         .get("/api/comp/")
         .then(res=>{
@@ -97,9 +99,17 @@ class Login extends React.Component {
                 console.log({s})
                 return(
                   <>
-                          {!this.state.done ? (
-          <ReactLoading type={"bars"} color={"white"} />
-        ):
+                  {!this.state.done ? (
+                    <Container className="pt-lg-7">
+                      <Row className="justify-content-center">
+                        <Col lg="5">
+                          <div className="btn-wrapper text-center">
+                            <ReactLoading type={"bars"} color={"white"} />
+                          </div>
+                        </Col>
+                      </Row>
+                    </Container>
+                  ):(
                   <Container className="pt-lg-7">
                     <Row className="justify-content-center">
                       <Col lg="5">
@@ -137,7 +147,7 @@ class Login extends React.Component {
                       </Col>
                     </Row>
                   </Container>
-              }
+                  )}
                   </>
                 )
               })}
