@@ -18,6 +18,7 @@
 import React from "react";
 import Flip from 'react-reveal/Flip';
 import axios from "axios";
+import ReactLoading from "react-loading";
 
 // reactstrap components
 import {
@@ -48,6 +49,7 @@ class Login extends React.Component {
     super(props);
     this.state = { 
       show: true,
+      done: undefined,
       musica:[],
       prop:[],
       urlRequest:[],
@@ -64,22 +66,24 @@ class Login extends React.Component {
   handleClick() {
     axios.post('/api/top/', {
       top: "37i9dQZEVXbMDoHDwVN2tF" 
-    })    
-    axios.post('/api/musica/', {
-      musica: this.state.urlRequest 
+    }).then((r) =>{   
+      axios.post('/api/musica/', {
+        musica: this.state.urlRequest 
+      })
+      .then((response) => {
+        const musica = [response.data.features[0]]
+        this.setState({ musica:musica , show: !this.state.show });
+        axios
+        .get("/api/comp/")
+        .then(res=>{
+          const prop = [res.data];
+          this.setState({ prop });
+          this.setState({ done: true });
+        }); 
+      }, (error) => {
+        console.log(error);
+      });
     })
-    .then((response) => {
-      const musica = [response.data.features[0]]
-      this.setState({ musica:musica , show: !this.state.show });
-      axios
-      .get("/api/comp/")
-      .then(res=>{
-        const prop = [res.data];
-        this.setState({ prop });
-      }); 
-    }, (error) => {
-      console.log(error);
-    });
   }
   render() {
     return (
@@ -89,10 +93,13 @@ class Login extends React.Component {
           {/* <section className="section section-shaped section-lg"> */}
             <div className="shape shape-style-1 bg-gradient-default">
             </div>
-              {this.state.prop.map((s, index) => {
+              {this.state.prop.map((s) => {
                 console.log({s})
                 return(
                   <>
+                          {!this.state.done ? (
+          <ReactLoading type={"bars"} color={"white"} />
+        ):
                   <Container className="pt-lg-7">
                     <Row className="justify-content-center">
                       <Col lg="5">
@@ -116,10 +123,21 @@ class Login extends React.Component {
                               />
                             </Button>
                           </div>
+                          <div className="text-center">
+                            <Button
+                              className="my-4"
+                              color="success"
+                              type="button"
+                              href="/"
+                            >
+                            Fazer outra nusca
+                            </Button>
+                          </div>
                         </Card>
                       </Col>
                     </Row>
                   </Container>
+              }
                   </>
                 )
               })}
