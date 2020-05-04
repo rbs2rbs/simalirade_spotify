@@ -35,6 +35,7 @@ import {
   Container,
   Row,
   Col,
+  Modal,
   Progress
 } from "reactstrap";
 
@@ -45,6 +46,11 @@ class Login extends React.Component {
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
+  toggleModal = state => {
+    this.setState({
+      [state]: !this.state[state]
+    });
+  };
   constructor(props) {
     super(props);
     this.state = { 
@@ -121,10 +127,71 @@ class Login extends React.Component {
                       <Col lg="5">
                         <Card className="bg-secondary shadow border-0">
                           <div className="btn-wrapper text-center">
-                            <div className="text-center">
-                              <h1>{Number(s.prop*100).toFixed(2)}%</h1>
-                            </div>
-                            <Progress max="100" value={Number(s.prop*100).toFixed(2)} color="green" />
+                             <Row md="4">
+                              <Button
+                                block
+                                className="mb-3"
+                                color="success"
+                                type="button"
+                                onClick={() => this.toggleModal("notificationModal")}
+                              >
+                                Similaridade de {Number(s.dist_parecidas*100).toFixed(2)}%
+                              </Button>
+                              <Button
+                                block
+                                className="mb-3"
+                                color="success"
+                                type="button"
+                                onClick={() => this.toggleModal("notificationModal")}
+                              >
+                                {Number(s.dist_parecidas*100).toFixed(2)}%
+                              </Button>
+                              <Modal
+                                className="modal-dialog-centered modal-danger"
+                                contentClassName="bg-gradient-danger"
+                                isOpen={this.state.notificationModal}
+                                toggle={() => this.toggleModal("notificationModal")}
+                              >
+                                <div className="modal-header">
+                                  <h6 className="modal-title" id="modal-title-notification">
+                                    Your attention is required
+                                  </h6>
+                                  <button
+                                    aria-label="Close"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    type="button"
+                                    onClick={() => this.toggleModal("notificationModal")}
+                                  >
+                                    <span aria-hidden={true}>×</span>
+                                  </button>
+                                </div>
+                                <div className="modal-body">
+                                  <div className="py-3 text-center">
+                                    <i className="ni ni-bell-55 ni-3x" />
+                                    <h4 className="heading mt-4">You should read this!</h4>
+                                    <p>
+                                      A small river named Duden flows by their place and supplies
+                                      it with the necessary regelialia.
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="modal-footer">
+                                  <Button className="btn-white" color="default" type="button">
+                                    Ok, Got it
+                                  </Button>
+                                  <Button
+                                    className="text-white ml-auto"
+                                    color="link"
+                                    data-dismiss="modal"
+                                    type="button"
+                                    onClick={() => this.toggleModal("notificationModal")}
+                                  >
+                                    Close
+                                  </Button>
+                                </div>
+                              </Modal>
+                            </Row>
                             <h3>{s.musica.track.name}  </h3>
                             <h3>{s.musica.track.artists[0].name}</h3>
                             <Button

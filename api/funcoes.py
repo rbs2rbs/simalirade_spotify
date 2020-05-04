@@ -74,21 +74,27 @@ class Comp:
 
         links_musica = musicas['uri']
 
-        musicas = musicas.drop(['instrumentalness','time_signature','key','mode','type','uri','id','track_href','analysis_url'],axis=1)
-
+        # musicas = musicas.drop(['instrumentalness','time_signature','key','mode','type','uri','id','track_href','analysis_url'],axis=1)
+        musicas = musicas.drop(['time_signature','key','mode','type','uri','id','track_href','analysis_url','duration_ms'],axis=1)
+        
+        musicas['loudness'] = (musicas['loudness']+60)/(60)
+        musicas['tempo'] = (musicas['tempo'] - 25)/200
 
         ################################
 
         top = pd.DataFrame(self.top)
         
-        top = top.drop(['instrumentalness','time_signature','key','mode','type','uri','id','track_href','analysis_url'],axis=1)
-
+        # top = top.drop(['instrumentalness','time_signature','key','mode','type','uri','id','track_href','analysis_url'],axis=1)
+        top = top.drop(['time_signature','key','mode','type','uri','id','track_href','analysis_url','duration_ms'],axis=1)
         nomes = top.columns
 
-        scala = MinMaxScaler()
-        scala.fit(top)
+        top['loudness'] = (top['loudness'] + 60)/(60)
+        top['tempo'] = (top['tempo'] - 25)/200
 
-        top = pd.DataFrame(scala.transform(top))
+        # scala = MinMaxScaler()
+        # scala.fit(top)
+
+        # top = pd.DataFrame(scala.transform(top))
 
         for id,col in enumerate(top.columns):
             top.rename(columns={col:nomes[id]}, inplace=True)
@@ -106,10 +112,23 @@ class Comp:
 
         saida = []
         for id,nome in enumerate(top.columns):
-            centroides[nome] = kmeans.cluster_centers_[:,id][0]
-            minimos[nome] = scala.data_min_[id]
-            maximos[nome] = scala.data_max_[id]
-            largura[nome] = scala.data_range_[id]
+            if nome == "loudness":
+                centroides[nome] = kmeans.cluster_centers_[:,id][0]
+                minimos[nome] = -60
+                maximos[nome] = 0
+                largura[nome] = 60
+
+            elif nome == "tempo":
+                centroides[nome] = kmeans.cluster_centers_[:,id][0]
+                minimos[nome] = 25
+                maximos[nome] = 225
+                largura[nome] = 200
+                
+            else:
+                centroides[nome] = kmeans.cluster_centers_[:,id][0]
+                minimos[nome] = 0
+                maximos[nome] = 1
+                largura[nome] = 1
 
         for nome in musicas.columns:
             saida.append((musicas.loc[0,nome] - minimos[nome])/largura[nome])
@@ -118,15 +137,18 @@ class Comp:
 
         dists = []
         for i in range(0,np.shape(top)[0]):
-            dists.append(np.sqrt(np.sum((saida - top.loc[i,])**2))/(np.sqrt(np.shape(musicas)[1])))
+            dists.append(np.sqrt(np.sum((top.iloc[i,:].values - musicas.values)**2)))
 
         posicao = np.where(dists == np.amin(dists))[0][0]
 
         parecida = self.top[posicao]['id']
 
+        dist_parecidas = 1 - dists[posicao]
+
         saida = {
             "parecida":parecida,
-            "prop":prop
+            "prop":prop,
+            "dist_parecidas": dist_parecidas
         }
 
         return(saida)
