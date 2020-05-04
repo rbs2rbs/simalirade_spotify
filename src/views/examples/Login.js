@@ -68,16 +68,19 @@ class Login extends React.Component {
     this.setState({ done: false }); 
     axios.post('/api/top/', {
       top: "37i9dQZEVXbMDoHDwVN2tF" 
-    }).then((r) =>{  
+    }).then((r) =>{ 
+      console.log(r) 
       axios.post('/api/musica/', {
         musica: this.state.urlRequest 
       })
       .then((response) => {
+        console.log(response)
         const musica = [response.data.features[0]]
         this.setState({ musica:musica });
         axios
         .get("/api/comp/")
         .then(res=>{
+          console.log(res)
           const prop = [res.data];
           this.setState({ prop });
           this.setState({ done: true });
