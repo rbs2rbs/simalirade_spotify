@@ -6,10 +6,10 @@ from django.contrib import admin
 
 
 def index(request):
-    for key in list(request.session.keys()):
-        try:
-            del request.session[key]
-        except:
-            pass
+    # for key in list(request.session.keys()):
+    #     try:
+    #         del request.session[key]
+    #     except:
+    #         pass
 
     return TemplateView.as_view(template_name='index.html')(request)
