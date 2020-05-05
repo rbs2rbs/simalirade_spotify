@@ -90,6 +90,7 @@ class Comp:
 
         top['loudness'] = (top['loudness'] + 60)/(60)
         top['tempo'] = (top['tempo'] - 25)/200
+        top['speechiness'] = (top['speechiness'] - 0)/0.66
 
         # scala = MinMaxScaler()
         # scala.fit(top)
@@ -123,6 +124,12 @@ class Comp:
                 minimos[nome] = 25
                 maximos[nome] = 225
                 largura[nome] = 200
+
+            elif nome == "speechiness":
+                centroides[nome] = kmeans.cluster_centers_[:,id][0]
+                minimos[nome] = 0
+                maximos[nome] = 0.66
+                largura[nome] = 1
                 
             else:
                 centroides[nome] = kmeans.cluster_centers_[:,id][0]
@@ -145,10 +152,29 @@ class Comp:
 
         dist_parecidas = 1 - dists[posicao]
 
+        dist = np.absolute(top.iloc[posicao,:].values - musicas.values)
+
+        caracteristica = nomes[np.where(dist == np.amin(dist))[1][0]]
+
+        nomes = {
+                nomes[0]:"Dançante",
+                nomes[1]:"Energia",
+                nomes[2]:"Volume",
+                nomes[3]:"Palavras",
+                nomes[4]:"Acústica",
+                nomes[5]:"Instrumentalidade",
+                nomes[6]:"Vivacidade",
+                nomes[7]:"Valência",
+                nomes[8]:"Tempo"
+            }
+
         saida = {
             "parecida":parecida,
             "prop":prop,
-            "dist_parecidas": dist_parecidas
+            "dist_parecidas": dist_parecidas,
+            "dist":dist,
+            "nomes": nomes,
+            "caracteristica": nomes[caracteristica]
         }
 
         return(saida)

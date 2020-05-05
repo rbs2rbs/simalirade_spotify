@@ -1,5 +1,5 @@
 from django.shortcuts import render
-# from django.http import JsonResponse,HttpResponse
+from django.http import HttpResponseNotFound
 
 from rest_framework.response import Response
 
@@ -23,10 +23,12 @@ class MusicaView(APIView):
 
             request.session['musica'] = saida
 
-        except:
-            saida = "error"  
+            return Response(saida)
 
-        return Response(saida)
+        except:
+            return HttpResponseNotFound("error")  
+
+        
 
 
 class TopView(APIView):

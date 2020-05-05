@@ -35,8 +35,7 @@ import {
   Container,
   Row,
   Col,
-  Modal,
-  Progress
+  Modal
 } from "reactstrap";
 
 
@@ -51,11 +50,19 @@ class Login extends React.Component {
       [state]: !this.state[state]
     });
   };
+
+  toggleErro = state => {
+    this.setState({
+      [state]: !this.state[state]
+    });
+  };
+
   constructor(props) {
     super(props);
     this.state = { 
       show: true,
       done: undefined,
+      erro: true,
       musica:[],
       prop:[],
       urlRequest:[],
@@ -70,8 +77,8 @@ class Login extends React.Component {
   }
 
   handleClick() {
-    this.setState({ show: !this.state.show });
     this.setState({ done: false }); 
+    this.setState({ show: !this.state.show });
     axios.post('/api/top/', {
       top: "37i9dQZEVXbMDoHDwVN2tF" 
     }).then((r) =>{ 
@@ -96,13 +103,35 @@ class Login extends React.Component {
         }); 
       }, (error) => {
         console.log(error);
+        this.setState({ erro: !this.state.erro })
       });
-    })
+    },(error) => {
+      console.log(error);
+      console.log('aki')
+      this.setState({ erro: !this.state.erro })
+    });
   }
   render() {
     return (
       <>
         {/* <DemoNavbar /> */}
+        <Modal
+          className="modal-dialog-centered modal-danger"
+          contentClassName="bg-gradient-danger"
+          isOpen={!this.state.erro}
+        >
+          <div className="text-center">
+            Algo deu errado <br></br>
+            <Button
+              className="my-4"
+              color="success"
+              type="button"
+              href="/"
+            >
+            Tente Novamente
+            </Button>
+          </div>
+        </Modal>
         <main ref="main" class="bg-gradient-default">
           {/* <section className="section section-shaped section-lg"> */}
             <div className="shape shape-style-1 bg-gradient-default">
@@ -127,10 +156,10 @@ class Login extends React.Component {
                       <Col lg="5">
                         <Card className="bg-secondary shadow border-0">
                           <div className="btn-wrapper text-center">
-                             <Row md="4">
+                             <Row md="6">
                               <Button
                                 block
-                                className="mb-3"
+                                // className="mb-3"
                                 color="success"
                                 type="button"
                                 onClick={() => this.toggleModal("notificationModal")}
@@ -139,12 +168,21 @@ class Login extends React.Component {
                               </Button>
                               <Button
                                 block
-                                className="mb-3"
+                                // className="mb-3"
                                 color="success"
                                 type="button"
                                 onClick={() => this.toggleModal("notificationModal")}
                               >
-                                {Number(s.dist_parecidas*100).toFixed(2)}%
+                                Principal caracteristica similar: {s.caracteristica}
+                              </Button>
+                              <Button
+                                block
+                                // className="mb-5"
+                                color="primary"
+                                type="button"
+                                onClick={() => this.toggleModal("notificationModal")}
+                              >
+                                Saiba Mais
                               </Button>
                               <Modal
                                 className="modal-dialog-centered modal-danger"
@@ -154,7 +192,7 @@ class Login extends React.Component {
                               >
                                 <div className="modal-header">
                                   <h6 className="modal-title" id="modal-title-notification">
-                                    Your attention is required
+                                    Informações Detalhadas
                                   </h6>
                                   <button
                                     aria-label="Close"
@@ -169,16 +207,41 @@ class Login extends React.Component {
                                 <div className="modal-body">
                                   <div className="py-3 text-center">
                                     <i className="ni ni-bell-55 ni-3x" />
-                                    <h4 className="heading mt-4">You should read this!</h4>
-                                    <p>
-                                      A small river named Duden flows by their place and supplies
-                                      it with the necessary regelialia.
-                                    </p>
+                                  </div>
+                                  <div className="py-3">
+                                    <h4 className="heading mt-4">Caracteristicas Similares</h4>
+                                    <li>
+                                      {s.nomes.danceability} = {(1-(Number(s.dist[0][0]).toFixed(0)))*100}%
+                                    </li>
+                                    <li>
+                                      {s.nomes.energy} = {(1-(Number(s.dist[0][1]).toFixed(0)))*100}%
+                                    </li>
+                                    <li>
+                                      {s.nomes.loudness} = {(1-(Number(s.dist[0][2]).toFixed(0)))*100}%
+                                    </li>
+                                    <li>
+                                      {s.nomes.speechiness} = {(1-(Number(s.dist[0][3]).toFixed(0)))*100}%
+                                    </li>
+                                    <li>
+                                      {s.nomes.acousticness} = {(1-(Number(s.dist[0][4]).toFixed(0)))*100}%
+                                    </li>
+                                    <li>
+                                      {s.nomes.instrumentalness} = {(1-(Number(s.dist[0][5]).toFixed(0)))*100}%
+                                    </li>
+                                    <li>
+                                      {s.nomes.liveness} = {(1-(Number(s.dist[0][6]).toFixed(0)))*100}%
+                                      </li>
+                                    <li>
+                                      {s.nomes.valence} = {(1-(Number(s.dist[0][7]).toFixed(0)))*100}%
+                                    </li>
+                                    <li>
+                                      {s.nomes.tempo} = {(1-(Number(s.dist[0][8]).toFixed(0)))*100}%
+                                    </li>
                                   </div>
                                 </div>
                                 <div className="modal-footer">
-                                  <Button className="btn-white" color="default" type="button">
-                                    Ok, Got it
+                                  <Button className="btn-white" color="default" type="button" href="https://www.linkedin.com/in/renan-bispo-da-silva-01461555/">
+                                    Saiba Mais
                                   </Button>
                                   <Button
                                     className="text-white ml-auto"
@@ -187,23 +250,25 @@ class Login extends React.Component {
                                     type="button"
                                     onClick={() => this.toggleModal("notificationModal")}
                                   >
-                                    Close
+                                    Sair
                                   </Button>
                                 </div>
                               </Modal>
                             </Row>
-                            <h3>{s.musica.track.name}  </h3>
-                            <h3>{s.musica.track.artists[0].name}</h3>
+                            <spam>{s.musica.track.name}  </spam> <br></br>
+                            <spam>{s.musica.track.artists[0].name}</spam>
                             <Button
                               className="btn-neutral btn-icon"
                               color="default"
                               href={s.musica.track.external_urls.spotify}
                             >
+                              <Row sm="3" xs="6">
                               <img
                                 className="maximo rounded-circle" 
                                 alt="..."
                                 src={s.musica.track.album.images[1].url}
                               />
+                              </Row>
                             </Button>
                           </div>
                           <div className="text-center">
@@ -213,7 +278,7 @@ class Login extends React.Component {
                               type="button"
                               href="/"
                             >
-                            Fazer outra nusca
+                            Fazer outra Busca
                             </Button>
                           </div>
                         </Card>
@@ -231,7 +296,7 @@ class Login extends React.Component {
                     <Card className="bg-secondary shadow border-0">
                       <CardHeader className="bg-white pb-5">
                         <div className="text-muted text-center mb-3">
-                          <h2>Adicione o link de compartilhamento Spotify da sua Música</h2>
+                          <h2>Adicione um link de compartilhamento Spotify da sua Música</h2>
                         </div>
                       </CardHeader>
                       <CardBody className="px-lg-5 py-lg-5">
@@ -249,12 +314,12 @@ class Login extends React.Component {
                           <div className="text-center">
                             <Button
                               className="my-4"
-                              color="success"
+                              color={ !this.state.erro ? 'error' : "success" }
                               type="button"
                               onClick={this.handleClick}
                               disabled={!this.state.show}
                             >
-                            Fazer Busca
+                            { !this.state.erro ? 'Algo deu Errado' : 'Fazer Busca' }
                             </Button>
                           </div>
                         </Form>
