@@ -255,20 +255,18 @@ class Login extends React.Component {
                                 </div>
                               </Modal>
                             </Row>
-                            <spam>{s.musica.track.name}  </spam> <br></br>
+                            <spam>{s.musica.track.name}  </spam>
                             <spam>{s.musica.track.artists[0].name}</spam>
                             <Button
                               className="btn-neutral btn-icon"
                               color="default"
                               href={s.musica.track.external_urls.spotify}
                             >
-                              <Row sm="3" xs="6">
                               <img
                                 className="maximo rounded-circle" 
                                 alt="..."
                                 src={s.musica.track.album.images[1].url}
                               />
-                              </Row>
                             </Button>
                           </div>
                           <div className="text-center">
