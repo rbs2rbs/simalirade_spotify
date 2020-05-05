@@ -146,6 +146,8 @@ class Comp:
         for i in range(0,np.shape(top)[0]):
             dists.append(np.sqrt(np.sum((top.iloc[i,:].values - musicas.values)**2)))
 
+        dists = dists/np.sqrt(2)
+
         posicao = np.where(dists == np.amin(dists))[0][0]
 
         parecida = self.top[posicao]['id']
