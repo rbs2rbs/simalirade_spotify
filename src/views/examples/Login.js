@@ -109,11 +109,13 @@ class Login extends React.Component {
         }); 
       }, (error) => {
         console.log(error);
+        this.setState({ done: "none" }); 
         this.setState({ erro: !this.state.erro })
       });
     },(error) => {
       console.log(error);
       this.setState({ erro: !this.state.erro })
+      this.setState({ done: "none" }); 
     });
   }
   render() {
@@ -158,7 +160,7 @@ class Login extends React.Component {
               type="button"
               onClick={() => this.toggleModal("inicialModal")}
             >
-              Entedo
+              Ok!
             </Button>
           </div>
         </Modal>
@@ -170,7 +172,7 @@ class Login extends React.Component {
           isOpen={!this.state.erro}
         >
           <div className="text-center">
-            Algo deu errado <br></br>
+            Esta música não tem dados disponiveis pelo Spotify <br></br>
             <Button
               className="my-4"
               color="success"
