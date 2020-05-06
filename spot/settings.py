@@ -68,7 +68,6 @@ TEMPLATES = [
         'DIRS':  [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
-            'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
