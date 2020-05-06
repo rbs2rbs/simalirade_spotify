@@ -20,6 +20,8 @@ import Flip from 'react-reveal/Flip';
 import axios from "axios";
 import ReactLoading from "react-loading";
 
+import SimpleFooter from "components/Footers/SimpleFooter.js";
+
 // reactstrap components
 import {
   Button,
@@ -61,8 +63,9 @@ class Login extends React.Component {
     super(props);
     this.state = { 
       show: true,
-      done: undefined,
+      done: "none",
       erro: true,
+      display: "fixed",
       musica:[],
       prop:[],
       urlRequest:[],
@@ -74,10 +77,11 @@ class Login extends React.Component {
 
   handleChange(e){
     this.setState({ urlRequest: e.target.value });
+    console.log(e.target.value)
   }
 
   handleClick() {
-    this.setState({ done: false }); 
+    this.setState({ done: "block" }); 
     this.setState({ show: !this.state.show });
     axios.post('/api/top/', {
       top: "37i9dQZEVXbMDoHDwVN2tF" 
@@ -100,6 +104,8 @@ class Login extends React.Component {
           const prop = [res.data];
           this.setState({ prop });
           this.setState({ done: true });
+          this.setState({ display: "none" });
+          this.setState({ done: "none" }); 
         }); 
       }, (error) => {
         console.log(error);
@@ -107,13 +113,56 @@ class Login extends React.Component {
       });
     },(error) => {
       console.log(error);
-      console.log('aki')
       this.setState({ erro: !this.state.erro })
     });
   }
   render() {
     return (
       <>
+        <Modal
+          className="modal-dialog-centered modal-danger"
+          contentClassName="bg-gradient-danger"
+          isOpen={!this.state.inicialModal}
+          toggle={() => this.toggleModal("inicialModal")}
+        >
+          <div className="modal-header">
+            <h6 className="modal-title" id="modal-title-notification">
+              Informações Detalhadas
+            </h6>
+            <button
+              aria-label="Close"
+              className="close"
+              data-dismiss="modal"
+              type="button"
+              onClick={() => this.toggleModal("inicialModal")}
+            >
+              <span aria-hidden={true}>×</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <div className="py-3 text-center">
+              <img className="maximo-gif" 
+                alt="..."
+                src={require("assets/img/icons/common/tutor.gif")}
+              />
+            </div>
+          </div>
+          <div className="modal-footer">
+            <Button className="btn-white" color="default" type="button" target="_blank" href="https://www.linkedin.com/in/renan-bispo-da-silva-01461555/">
+              Saiba Mais
+            </Button>
+            <Button
+              className="text-white ml-auto"
+              color="link"
+              data-dismiss="modal"
+              type="button"
+              onClick={() => this.toggleModal("inicialModal")}
+            >
+              Entedo
+            </Button>
+          </div>
+        </Modal>
+                 
         {/* <DemoNavbar /> */}
         <Modal
           className="modal-dialog-centered modal-danger"
@@ -134,23 +183,23 @@ class Login extends React.Component {
         </Modal>
         <main ref="main" class="bg-gradient-default">
           {/* <section className="section section-shaped section-lg"> */}
+          <Container className="pt-lg-7" style = {{display: this.state.done}}>
+            <Row className="justify-content-center">
+              <Row lg="5">
+                <div className="btn-wrapper text-center">
+                  <Col md="6">
+                    <ReactLoading type={"bars"} color={"white"} />
+                  </Col>
+                </div>
+              </Row>
+            </Row>
+          </Container>
             <div className="shape shape-style-1 bg-gradient-default">
             </div>
               {this.state.prop.map((s) => {
                 console.log({s})
                 return(
-                  <>
-                  {!this.state.done ? (
-                    <Container className="pt-lg-7">
-                      <Row className="justify-content-center">
-                        <Col lg="5">
-                          <div className="btn-wrapper text-center">
-                            <ReactLoading type={"bars"} color={"white"} />
-                          </div>
-                        </Col>
-                      </Row>
-                    </Container>
-                  ):(
+                  <>                             
                   <Container className="pt-lg-7">
                     <Row className="justify-content-center">
                       <Col lg="5">
@@ -283,67 +332,70 @@ class Login extends React.Component {
                       </Col>
                     </Row>
                   </Container>
-                  )}
+                  }
                   </>
                 )
               })}
-            <Flip left when={this.state.show} >
-              <Container className="pt-lg-7">
-                <Row className="justify-content-center">
-                  <Col lg="5">
-                    <Card className="bg-secondary shadow border-0">
-                      <CardHeader className="bg-white pb-5">
-                        <div className="text-muted text-center mb-3">
-                          <h2>Adicione um link de compartilhamento Spotify da sua Música</h2>
-                        </div>
-                      </CardHeader>
-                      <CardBody className="px-lg-5 py-lg-5">
-                        <Form role="form" onSubmit={this.handleSubmit}>
-                          <FormGroup className="mb-3">
-                            <InputGroup className="input-group-alternative">
-                              <InputGroupAddon addonType="prepend">
-                                <InputGroupText>
-                                  <i className="ni ni-headphones" />
-                                </InputGroupText>
-                              </InputGroupAddon>
-                              <Input placeholder="Link" type="url" onChange={ this.handleChange }/>
-                            </InputGroup>
-                          </FormGroup>
-                          <div className="text-center">
+            <div style={{display: this.state.display}}>
+              <Flip left when={this.state.show} >
+                <Container className="pt-lg-7">
+                  <Row className="justify-content-center">
+                    <Col lg="5">
+                      <Card className="bg-secondary shadow border-0">
+                        <CardHeader className="bg-white pb-5">
+                          <div className="text-muted text-center mb-3">
+                            <h3>Adicione um link de compartilhamento Spotify da sua Música</h3>
+                          </div>
+                        </CardHeader>
+                        <CardBody className="px-lg-5 py-lg-5">
+                          <Form role="form" onSubmit={this.handleSubmit}>
+                            <FormGroup className="mb-3">
+                              <InputGroup className="input-group-alternative">
+                                <InputGroupAddon addonType="prepend">
+                                  <InputGroupText>
+                                    <i className="ni ni-headphones" />
+                                  </InputGroupText>
+                                </InputGroupAddon>
+                                <Input placeholder="Link" type="url" onChange={ this.handleChange }/>
+                              </InputGroup>
+                            </FormGroup>
+                            <div className="text-center">
+                              <Button
+                                className="my-4"
+                                color={ !this.state.erro ? 'error' : "success" }
+                                type="button"
+                                onClick={this.handleClick}
+                                disabled={!this.state.show}
+                              >
+                              { !this.state.erro ? 'Algo deu Errado' : 'Fazer Busca' }
+                              </Button>
+                            </div>
+                          </Form>
+                          <div className="btn-wrapper text-center">
                             <Button
-                              className="my-4"
-                              color={ !this.state.erro ? 'error' : "success" }
-                              type="button"
-                              onClick={this.handleClick}
-                              disabled={!this.state.show}
+                              className="btn-neutral btn-icon"
+                              color="default"
+                              href="#pablo"
+                              onClick={e => e.preventDefault()}
                             >
-                            { !this.state.erro ? 'Algo deu Errado' : 'Fazer Busca' }
+                              <span>
+                                <img className="maximo" 
+                                  alt="..."
+                                  src={require("assets/img/icons/common/spot.svg")}
+                                />
+                              </span>
                             </Button>
                           </div>
-                        </Form>
-                        <div className="btn-wrapper text-center">
-                          <Button
-                            className="btn-neutral btn-icon"
-                            color="default"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
-                          >
-                            <span>
-                              <img className="maximo" 
-                                alt="..."
-                                src={require("assets/img/icons/common/spot.svg")}
-                              />
-                            </span>
-                          </Button>
-                        </div>
-                      
-                      </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-              </Container>
-            </Flip>
+                        
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Container>
+              </Flip>
+            </div>
           {/* </section> */}
+          <SimpleFooter />
         </main>
       </>
     );
