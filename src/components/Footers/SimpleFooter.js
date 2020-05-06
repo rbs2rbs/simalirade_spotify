@@ -41,7 +41,7 @@ class SimpleFooter extends React.Component {
                   Produzido por Renan Bispo
                 </h3>
                 <h4 className=" mb-0 font-weight-light">
-                  Ciêntista de Dados
+                  Cientista de Dados
                 </h4>
               </Col>
               <Col className="text-lg-center btn-wrapper" lg="6">
