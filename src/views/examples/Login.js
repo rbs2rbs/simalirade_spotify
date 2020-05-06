@@ -172,7 +172,7 @@ class Login extends React.Component {
           isOpen={!this.state.erro}
         >
           <div className="text-center">
-            Esta música não tem dados disponiveis pelo Spotify <br></br>
+            Este Link não possui dados disponiveis pelo Spotify <br></br>
             <Button
               className="my-4"
               color="success"
