@@ -127,7 +127,7 @@ class Login extends React.Component {
         >
           <div className="modal-header">
             <h6 className="modal-title" id="modal-title-notification">
-              Informações Detalhadas
+              Como Utilizar
             </h6>
             <button
               aria-label="Close"
