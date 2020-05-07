@@ -150,7 +150,7 @@ class Login extends React.Component {
             </div>
           </div>
           <div className="modal-footer">
-            <Button className="btn-white" color="default" type="button" target="_blank" href="https://www.linkedin.com/in/renan-bispo-da-silva-01461555/">
+            <Button className="btn-white" color="default" type="button" target="_blank" href="https://rbs2rbs.github.io/recomedacao_spotify/">
               Como Funciona
             </Button>
             <Button
@@ -282,7 +282,7 @@ class Login extends React.Component {
                                   </div>
                                 </div>
                                 <div className="modal-footer">
-                                  <Button className="btn-white" color="default" type="button" href="https://www.linkedin.com/in/renan-bispo-da-silva-01461555/">
+                                  <Button className="btn-white" color="default" type="button" href="https://rbs2rbs.github.io/recomedacao_spotify/">
                                     Como Funciona
                                   </Button>
                                   <Button
