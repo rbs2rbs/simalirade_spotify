@@ -151,7 +151,7 @@ class Login extends React.Component {
           </div>
           <div className="modal-footer">
             <Button className="btn-white" color="default" type="button" target="_blank" href="https://www.linkedin.com/in/renan-bispo-da-silva-01461555/">
-              Saiba Mais
+              Como Funciona
             </Button>
             <Button
               className="text-white ml-auto"
@@ -215,7 +215,7 @@ class Login extends React.Component {
                                 type="button"
                                 onClick={() => this.toggleModal("notificationModal")}
                               >
-                                Similaridade de {Number(s.dist_parecidas*100).toFixed(2)}%
+                                Similaridade de <spam style={{color:"#5e72e4"}}>{Number(s.dist_parecidas*100).toFixed(2)}%</spam>
                               </Button>
                               <Button
                                 block
@@ -224,16 +224,7 @@ class Login extends React.Component {
                                 type="button"
                                 onClick={() => this.toggleModal("notificationModal")}
                               >
-                                Principal caracteristica similar: {s.caracteristica}
-                              </Button>
-                              <Button
-                                block
-                                // className="mb-5"
-                                color="primary"
-                                type="button"
-                                onClick={() => this.toggleModal("notificationModal")}
-                              >
-                                Saiba Mais
+                                Principal caracteristica similar: <spam style={{color:"#5e72e4"}}>{s.caracteristica}</spam>
                               </Button>
                               <Modal
                                 className="modal-dialog-centered modal-danger"
@@ -292,7 +283,7 @@ class Login extends React.Component {
                                 </div>
                                 <div className="modal-footer">
                                   <Button className="btn-white" color="default" type="button" href="https://www.linkedin.com/in/renan-bispo-da-silva-01461555/">
-                                    Saiba Mais
+                                    Como Funciona
                                   </Button>
                                   <Button
                                     className="text-white ml-auto"
@@ -306,8 +297,7 @@ class Login extends React.Component {
                                 </div>
                               </Modal>
                             </Row>
-                            <spam>{s.musica.track.name}  </spam>
-                            <spam>{s.musica.track.artists[0].name}</spam>
+                            <spam>{s.musica.track.name} - {s.musica.track.artists[0].name}</spam> 
                             <Button
                               className="btn-neutral btn-icon"
                               color="default"
@@ -320,6 +310,15 @@ class Login extends React.Component {
                               />
                             </Button>
                           </div>
+                          <Button
+                            block
+                            // className="mb-5"
+                            color="primary"
+                            type="button"
+                            onClick={() => this.toggleModal("notificationModal")}
+                          >
+                            Saiba Mais
+                          </Button>
                           <div className="text-center">
                             <Button
                               className="my-4"
