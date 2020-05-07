@@ -150,7 +150,7 @@ class Login extends React.Component {
             </div>
           </div>
           <div className="modal-footer">
-            <Button className="btn-white" color="default" type="button" target="_blank" href="https://rbs2rbs.github.io/recomedacao_spotify/">
+            <Button className="btn-white" color="default" type="button" target="_blank" href="https://medium.com/@renan.bisposilva/desenvolvendo-uma-aplica%C3%A7%C3%A3o-de-recomenda%C3%A7%C3%A3o-do-spotify-81c5d86ded9f?sk=72178272f52344dd1df5bcf31e1af4dc">
               Como Funciona
             </Button>
             <Button
@@ -282,7 +282,7 @@ class Login extends React.Component {
                                   </div>
                                 </div>
                                 <div className="modal-footer">
-                                  <Button className="btn-white" color="default" type="button" href="https://rbs2rbs.github.io/recomedacao_spotify/">
+                                  <Button className="btn-white" color="default" type="button" href="https://medium.com/@renan.bisposilva/desenvolvendo-uma-aplica%C3%A7%C3%A3o-de-recomenda%C3%A7%C3%A3o-do-spotify-81c5d86ded9f?sk=72178272f52344dd1df5bcf31e1af4dc">
                                     Como Funciona
                                   </Button>
                                   <Button
